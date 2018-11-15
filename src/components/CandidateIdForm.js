@@ -8,22 +8,33 @@ class CandidateIdForm extends Component {
 
   this.state = {
     candidate_id: '',
-    data: [],
+    scoreRecords: [],
+    companies: [],
     submitted: false
   }
 }
 
 componentDidMount() {
-  Papa.parse("https://s3.amazonaws.com/simple-fractal-recruiting/score-records.csv", {
+  Papa.parse('https://s3.amazonaws.com/simple-fractal-recruiting/score-records.csv', {
     download: true,
     header: true,
     dynamicTyping: true,
-    complete: function(results) {
-      console.log("Finished:", results.data);
-      // this.setState({
-      //   ...this.state.data,
-      //   data: results.data
-      // })
+    complete: (results) => {
+      // console.log("Finished:", results.data);
+      this.setState({
+        scoreRecords: results.data
+      })
+    }
+  })
+  Papa.parse('https://s3.amazonaws.com/simple-fractal-recruiting/companies.csv', {
+    download: true,
+    header: true,
+    dynamicTyping: true,
+    complete: (results) => {
+      // console.log("Finished:", results.data);
+      this.setState({
+        companies: results.data
+      })
     }
   })
 }
@@ -36,14 +47,22 @@ handleChange = (e) => {
 
 handleSubmit = (e) => {
   e.preventDefault();
-  // return <BenchmarkData data={this.state.candidate_id} />
   this.setState({
     submitted: !this.state.submitted
   })
 }
 
+calculateCandidatePercentile(id) {
+  console.log(this.state.scoreRecords.find(el => this.state.candidate_id === el.candidate_id))
+}
+
+refreshPage() {
+  window.location.reload();
+}
+
 render() {
-  // console.log(this.state.data)
+  console.log("this is score records", this.state.scoreRecords)
+  // console.log("this is companies", this.state.companies)
   return (
     <div>
       <form onSubmit={this.handleSubmit}>
@@ -55,15 +74,18 @@ render() {
       </form>
 
       <div>
-        {this.state.submitted ? <h2>Coding Percentile: {this.state.candidate_id}</h2> : null}
+        {this.state.submitted ?
+          <div>
+            <h2>Coding Percentile: {this.state.candidate_id}</h2>
+            <button onClick={this.refreshPage}>
+              Refresh
+            </button>
+          </div>
+           : null}
       </div>
     </div>
   )
 }
-
-
-
-
 
 }
 
