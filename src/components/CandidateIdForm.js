@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import BenchmarkData from './BenchmarkData'
 import Papa from 'papaparse'
 
 class CandidateIdForm extends Component {
