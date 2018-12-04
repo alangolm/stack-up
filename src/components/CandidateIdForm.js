@@ -19,7 +19,6 @@ componentDidMount() {
     header: true,
     dynamicTyping: true,
     complete: (results) => {
-      // console.log("Finished:", results.data);
       this.setState({
         scoreRecords: results.data
       })
@@ -30,7 +29,6 @@ componentDidMount() {
     header: true,
     dynamicTyping: true,
     complete: (results) => {
-      // console.log("Finished:", results.data);
       this.setState({
         companies: results.data
       })
@@ -61,7 +59,6 @@ refreshPage() {
 
 render() {
   console.log("this is score records", this.state.scoreRecords)
-  // console.log("this is companies", this.state.companies)
   return (
     <div>
       <form onSubmit={this.handleSubmit}>
